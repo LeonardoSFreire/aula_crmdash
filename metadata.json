@@ -1,0 +1,5 @@
+{
+  "name": "LeadFlow AI Dashboard",
+  "description": "A high-performance, dark-mode administrative dashboard for managing AI automation leads using Supabase, React, and Tailwind CSS.",
+  "requestFramePermissions": []
+}
