@@ -105,9 +105,10 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      {/* Header Responsivo */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Visão Geral</h1>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 self-end md:self-auto">
           <ThemeToggle />
           <button 
             onClick={loadData}
@@ -238,20 +239,20 @@ const Dashboard: React.FC = () => {
           <table className="w-full text-left">
             <thead className="bg-gray-50 dark:bg-gray-900/50 text-gray-500 dark:text-gray-400 text-xs uppercase font-medium">
               <tr>
-                <th className="px-6 py-3">Nome</th>
-                <th className="px-6 py-3">Status IA</th>
-                <th className="px-6 py-3">Pipeline</th>
-                <th className="px-6 py-3">Data</th>
+                <th className="px-6 py-3 whitespace-nowrap">Nome</th>
+                <th className="px-6 py-3 whitespace-nowrap">Status IA</th>
+                <th className="px-6 py-3 whitespace-nowrap">Pipeline</th>
+                <th className="px-6 py-3 whitespace-nowrap">Data</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
               {stats.recentLeads.map((lead) => (
                 <tr key={lead.numero} className="hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors">
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900 dark:text-white">{lead.nome}</div>
                     <div className="text-xs text-gray-500">{lead.numero}</div>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-4 whitespace-nowrap">
                     <button 
                       onClick={() => toggleAIStatus(lead)}
                       className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium cursor-pointer transition-colors ${
@@ -263,10 +264,10 @@ const Dashboard: React.FC = () => {
                       {!lead.status_ia ? 'Ativa' : 'Pausada'}
                     </button>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-4 whitespace-nowrap">
                     <StatusBadge status={lead.pipeline} />
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
+                  <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">
                     {new Date(lead.created_at).toLocaleDateString('pt-BR')}
                   </td>
                 </tr>

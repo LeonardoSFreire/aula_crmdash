@@ -5,8 +5,7 @@ import { fetchLeads, updateLead } from '../services/leadsService';
 import { MoreHorizontal, Tag, RefreshCcw, Bot } from 'lucide-react';
 import ThemeToggle from '../components/ThemeToggle';
 
-// Configuração de cores para cada etapa do pipeline (usando classes que funcionam em ambos modos ou são customizadas via CSS classes)
-// Estamos atualizando para ter versions light/dark
+// Configuração de cores para cada etapa do pipeline
 const COLUMN_STYLES: Record<PipelineStatus, { borderTop: string, bg: string, text: string, shadow: string }> = {
   'novo lead': { 
     borderTop: 'border-t-blue-500', 
@@ -100,10 +99,11 @@ const Pipeline: React.FC = () => {
   }
 
   return (
-    <div className="h-[calc(100vh-3rem)] flex flex-col">
-       <div className="flex items-center justify-between mb-6">
+    <div className="h-[calc(100vh-5rem)] md:h-[calc(100vh-3rem)] flex flex-col">
+       {/* Header Responsivo */}
+       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Pipeline de Vendas</h1>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 self-end md:self-auto">
           <ThemeToggle />
           <button 
             onClick={loadLeads}
@@ -114,6 +114,7 @@ const Pipeline: React.FC = () => {
         </div>
       </div>
 
+      {/* Kanban Container */}
       <div className="flex-1 overflow-x-auto overflow-y-hidden pb-4">
         <DragDropContext onDragEnd={onDragEnd}>
           <div className="flex h-full space-x-4 min-w-max px-1">
@@ -124,7 +125,7 @@ const Pipeline: React.FC = () => {
               return (
                 <div 
                   key={status} 
-                  className={`w-80 flex flex-col rounded-xl h-full max-h-full border-t-4 ${styles.borderTop} ${styles.bg} bg-opacity-50 backdrop-blur-sm border-x border-b border-gray-200 dark:border-gray-800/50 transition-colors duration-300`}
+                  className={`w-72 md:w-80 flex flex-col rounded-xl h-full max-h-full border-t-4 ${styles.borderTop} ${styles.bg} bg-opacity-50 backdrop-blur-sm border-x border-b border-gray-200 dark:border-gray-800/50 transition-colors duration-300`}
                 >
                   {/* Header */}
                   <div className="p-4 flex items-center justify-between">

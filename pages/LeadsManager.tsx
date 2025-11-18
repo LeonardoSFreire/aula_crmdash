@@ -6,7 +6,7 @@ import ThemeToggle from '../components/ThemeToggle';
 
 // -- JSON Modal Component --
 const JsonModal: React.FC<{ data: any; onClose: () => void }> = ({ data, onClose }) => (
-  <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 backdrop-blur-sm" onClick={onClose}>
+  <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 backdrop-blur-sm p-4" onClick={onClose}>
     <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl w-full max-w-2xl max-h-[80vh] flex flex-col shadow-2xl transition-colors duration-300" onClick={e => e.stopPropagation()}>
       <div className="p-4 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-gray-850 rounded-t-xl">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Detalhes da Qualificação</h3>
@@ -71,7 +71,7 @@ const LeadRow = memo(({ lead, onUpdate, onViewJson }: LeadRowProps) => {
       </td>
 
       {/* Nome (Editable Text) */}
-      <td className="px-0 py-0 border-r border-gray-200 dark:border-gray-800 relative">
+      <td className="px-0 py-0 border-r border-gray-200 dark:border-gray-800 relative min-w-[150px]">
          <input 
            type="text"
            value={name}
@@ -88,7 +88,7 @@ const LeadRow = memo(({ lead, onUpdate, onViewJson }: LeadRowProps) => {
       </td>
 
       {/* Status IA (Toggle) */}
-      <td className="px-4 py-2 text-center border-r border-gray-200 dark:border-gray-800">
+      <td className="px-4 py-2 text-center border-r border-gray-200 dark:border-gray-800 whitespace-nowrap">
         <button 
           onClick={toggleStatusIA}
           className={`relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${!lead.status_ia ? 'bg-green-600' : 'bg-gray-400 dark:bg-gray-700'}`}
@@ -102,7 +102,7 @@ const LeadRow = memo(({ lead, onUpdate, onViewJson }: LeadRowProps) => {
       </td>
 
       {/* Pipeline (Select) */}
-      <td className="px-2 py-1 border-r border-gray-200 dark:border-gray-800">
+      <td className="px-2 py-1 border-r border-gray-200 dark:border-gray-800 min-w-[140px]">
         <select 
           value={lead.pipeline}
           onChange={handlePipelineChange}
@@ -125,7 +125,7 @@ const LeadRow = memo(({ lead, onUpdate, onViewJson }: LeadRowProps) => {
       </td>
 
       {/* Qualificacao (JSON view) */}
-      <td className="px-4 py-2 text-left">
+      <td className="px-4 py-2 text-left whitespace-nowrap">
         <button 
           onClick={() => onViewJson(lead.qualificacao)}
           className="flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/20 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 rounded transition-colors border border-indigo-200 dark:border-indigo-900/50"
@@ -185,35 +185,37 @@ const LeadsManager: React.FC = () => {
     <div className="h-full flex flex-col space-y-4">
       {jsonModalData && <JsonModal data={jsonModalData} onClose={() => setJsonModalData(null)} />}
 
-      {/* Header & Search */}
+      {/* Header & Search Responsivo */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Gerenciador de Leads</h1>
         
-        <div className="flex items-center gap-2">
-          <div className="relative">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3">
+          <div className="relative flex-1 md:flex-none">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input 
               type="text"
               placeholder="Buscar por Nome ou Número..."
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
-              className="pl-10 pr-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none w-64 transition-colors duration-300"
+              className="w-full md:w-64 pl-10 pr-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-colors duration-300"
             />
           </div>
-          <ThemeToggle />
-          <button 
-            onClick={loadLeads}
-            className="p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg text-gray-500 dark:text-gray-300 transition-colors shadow-sm"
-          >
-            <RefreshCw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
-          </button>
+          <div className="flex items-center gap-2 self-end md:self-auto">
+             <ThemeToggle />
+             <button 
+               onClick={loadLeads}
+               className="p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg text-gray-500 dark:text-gray-300 transition-colors shadow-sm"
+             >
+               <RefreshCw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
+             </button>
+          </div>
         </div>
       </div>
 
       {/* Spreadsheet Table */}
       <div className="flex-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden flex flex-col shadow-lg transition-colors duration-300">
-        <div className="overflow-auto flex-1">
-          <table className="w-full border-collapse">
+        <div className="overflow-auto flex-1 w-full">
+          <table className="w-full border-collapse min-w-[800px]">
             <thead className="bg-gray-50 dark:bg-gray-850 text-gray-500 dark:text-gray-400 text-xs font-semibold uppercase tracking-wider sticky top-0 z-10 shadow-sm transition-colors duration-300">
               <tr>
                 <th className="px-4 py-3 text-left w-32 border-b border-r border-gray-200 dark:border-gray-800">Número</th>
